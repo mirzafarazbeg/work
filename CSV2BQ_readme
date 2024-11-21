@@ -1,0 +1,49 @@
+ 1. MySQL Data Source:
+   - The workflow starts with a MySQL database, which stores the data that needs to be processed and analyzed.
+
+ 2. Scheduler:
+   - A scheduler (likely Google Cloud Scheduler) is used to trigger events or tasks at specific intervals. In this case:
+     - It fetches data from MySQL.
+     - Passes the data to the next stage of the pipeline.
+
+ 3. Cloud Functions:
+   - Google Cloud Functions are used as event-driven components. They process data after the scheduler triggers them. Here, the Cloud Function:
+     - Extracts data from MySQL.
+     - Converts or prepares the data into a suitable format (e.g., CSV).
+
+ 4. CSV File to Cloud Storage:
+   - The processed data is saved as a CSV file and uploaded to Google Cloud Storage.
+
+ 5. Folder Watcher Cloud Function:
+   - Another Cloud Function, acting as a folder watcher, monitors the Cloud Storage bucket.
+     - When a new CSV file is uploaded, it triggers the next part of the pipeline.
+
+ 6. Dataflow Pipeline:
+   - The Google Cloud Dataflow service is used to process and transform the data.
+     - It reads the CSV file from Cloud Storage.
+     - Performs any required transformations, aggregations, or calculations.
+     - Writes the final, processed data to BigQuery.
+
+ 7. BigQuery Table:
+   - The transformed data is loaded into a BigQuery table, making it ready for querying and analysis.
+
+ 8. Cloud Function to SendGrid:
+   - A final Cloud Function is triggered once the data is available in BigQuery.
+     - It generates a notification or report (e.g., based on data in BigQuery).
+     - Sends an email using SendGrid, an email delivery service, to notify stakeholders or provide processed data.
+
+ Key Components:
+   - MySQL: Data source.
+   - Cloud Scheduler: Task automation.
+   - Cloud Functions: Event-driven logic at different stages.
+   - Cloud Storage: Intermediate storage for CSV files.
+   - Dataflow: Data processing and transformation.
+   - BigQuery: Data warehouse for analytics.
+   - SendGrid: Email delivery for notifications.
+
+ Overall Flow:
+1. Data from MySQL is scheduled to be fetched.
+2. Data is converted to CSV and stored in Cloud Storage.
+3. Folder watcher triggers Dataflow for processing.
+4. Dataflow writes processed data to BigQuery.
+5. A Cloud Function sends an email via SendGrid after processing is complete.
