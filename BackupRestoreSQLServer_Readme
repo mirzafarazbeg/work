@@ -1,0 +1,23 @@
+1. Database Backup on Production Server:
+   - The process starts with the SQL Server on the Production Server.
+   - A database backup is created and saved locally or in a predefined location on the server.
+
+2. Move Backup to Cloud Storage:
+   - The backup file is transferred to Cloud Storage (e.g., Google Cloud Platform) for secure off-site storage using CLI or other tools.
+   - This step ensures that the backup is protected and accessible for restoration or other use cases.
+
+3. Download Backup from Cloud Storage:
+   - The backup file is downloaded from the cloud storage onto a Backup Server.
+   - This step is typically done to restore the database in a different environment or for disaster recovery purposes.
+
+4. Restore on Backup Server:
+   - Finally, the backup file is restored on the SQL Server running on the Backup Server.
+   - This completes the backup and restore operation.
+
+
+Key Points:
+- The Production Server is the source where the live database resides and backups originate.
+- Cloud Storage serves as a middle layer for secure backup storage and transfer between servers.
+- The Backup Server is the destination where the backup is restored, often used for testing or redundancy purposes.
+
+This process ensures data availability, security, and resilience by maintaining backups across different systems.
